@@ -53,7 +53,7 @@ sub _build_square
 	\@rows;
 }
 
-my $_build_lookups = sub
+my $_build_hashes = sub
 {
 	my $self = shift;
 	my ($want) = @_;
@@ -75,22 +75,22 @@ my $_build_lookups = sub
 	
 	const my $enc => \%enc;
 	const my $dec => \%dec;
-	$self->_set_lookup_enc($enc);
-	$self->_set_lookup_dec($dec);
+	$self->_set_encipher_hash($enc);
+	$self->_set_decipher_hash($dec);
 	$self->$want;
 };
 
-has _lookup_enc => (
+has encipher_hash => (
 	is       => 'lazy',
-	writer   => '_set_lookup_enc',
-	default  => sub { shift->$_build_lookups('_lookup_enc') },
+	writer   => '_set_encipher_hash',
+	default  => sub { shift->$_build_hashes('encipher_hash') },
 	init_arg => undef,
 );
 
-has _lookup_dec => (
+has decipher_hash => (
 	is       => 'lazy',
-	writer   => '_set_lookup_dec',
-	default  => sub { shift->$_build_lookups('_lookup_dec') }
+	writer   => '_set_decipher_hash',
+	default  => sub { shift->$_build_hashes('decipher_hash') },
 	init_arg => undef,
 );
 
@@ -101,7 +101,7 @@ sub encipher
 	my $self = shift;
 	my $str  = $self->preprocess($_[0]);
 	
-	my $enc = $self->_lookup_enc;
+	my $enc = $self->encipher_hash;
 	$str =~ s/(.)/exists $enc->{$1} ? $enc->{$1}." " : ""/eg;
 	chop $str;
 	return $str;
@@ -112,9 +112,9 @@ sub decipher
 	my $self = shift;
 	my $str  = $_[0];
 	
-	my %dec = %{ $self->_lookup_dec };
+	my $dec = $self->decipher_hash;
 	$str =~ s/[^0-9]//g; # input should be entirely numeric
-	$str =~ s/([0-9]{2})/$dec{$1}/eg;
+	$str =~ s/([0-9]{2})/$dec->{$1}/eg;
 	return $str;
 }
 
