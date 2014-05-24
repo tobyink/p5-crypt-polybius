@@ -17,6 +17,7 @@ use namespace::sweep;
 has square_size => (
 	is       => 'lazy',
 	isa      => PositiveInt & SingleDigit,
+	init_arg => undef,
 );
 
 requires 'alphabet';
@@ -30,6 +31,7 @@ sub _build_square_size {
 has square => (
 	is       => 'lazy',
 	isa      => ArrayRef[ ArrayRef[Str] ],
+	init_arg => undef,
 );
 
 sub _build_square
@@ -82,12 +84,14 @@ has _lookup_enc => (
 	is       => 'lazy',
 	writer   => '_set_lookup_enc',
 	default  => sub { shift->$_build_lookups('_lookup_enc') },
+	init_arg => undef,
 );
 
 has _lookup_dec => (
 	is       => 'lazy',
 	writer   => '_set_lookup_dec',
 	default  => sub { shift->$_build_lookups('_lookup_dec') }
+	init_arg => undef,
 );
 
 requires 'preprocess';
