@@ -8,13 +8,21 @@ our $AUTHORITY = 'cpan:TOBYINK';
 our $VERSION   = '0.001';
 
 use Moo;
+use Text::Unidecode;
 use namespace::sweep;
 
 with qw(
 	Crypt::Role::CheckboardCipher
 	Crypt::Role::StandardAlphabet
-	Crypt::Role::CipherPreprocessor
 );
+
+sub preprocess
+{
+	my $self = shift;
+	my ($str) = unidecode uc($_[0]);	
+	$str =~ s/J/I/g;
+	$str;
+}
 
 1;
 
@@ -78,15 +86,6 @@ An array of arrays of letters. The default is:
       [qw/ Q R S T U /],
       [qw/ V W X Y Z /],
    ]
-
-=item C<< substitutions >>
-
-A hashref of strings of pre-encipher substitutions to make. The default
-is:
-
-   { "J" => "I" }
-
-You should only use upper-case letters.
 
 =back
 

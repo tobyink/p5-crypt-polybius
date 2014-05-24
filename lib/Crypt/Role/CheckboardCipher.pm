@@ -97,8 +97,8 @@ sub encipher
 	my $self = shift;
 	my $str  = $self->preprocess($_[0]);
 	
-	my %enc = %{ $self->_lookup_enc };
-	$str =~ s/(.)/$enc{$1}." "/eg;
+	my $enc = $self->_lookup_enc;
+	$str =~ s/(.)/exists $enc->{$1} ? $enc->{$1}." " : ""/eg;
 	chop $str;
 	return $str;
 }
@@ -109,7 +109,7 @@ sub decipher
 	my $str  = $_[0];
 	
 	my %dec = %{ $self->_lookup_dec };
-	$str =~ s/[^0-9]//g;
+	$str =~ s/[^0-9]//g; # input should be entirely numeric
 	$str =~ s/([0-9]{2})/$dec{$1}/eg;
 	return $str;
 }
