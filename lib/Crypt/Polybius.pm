@@ -12,8 +12,8 @@ use Text::Unidecode;
 use namespace::sweep;
 
 with qw(
-	Crypt::Role::CheckboardCipher
-	Crypt::Role::StandardAlphabet
+	Crypt::Role::CheckerboardCipher
+	Crypt::Role::LatinAlphabet
 );
 
 sub preprocess

@@ -2,7 +2,7 @@ use 5.008;
 use strict;
 use warnings;
 
-package Crypt::Role::CheckboardCipher;
+package Crypt::Role::CheckerboardCipher;
 
 our $AUTHORITY = 'cpan:TOBYINK';
 our $VERSION   = '0.001';
