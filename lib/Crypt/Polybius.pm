@@ -12,6 +12,7 @@ use namespace::sweep;
 
 with qw(
 	Crypt::Role::CheckboardCipher
+	Crypt::Role::StandardAlphabet
 	Crypt::Role::CipherPreprocessor
 );
 

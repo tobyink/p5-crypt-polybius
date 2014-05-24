@@ -8,22 +8,47 @@ our $AUTHORITY = 'cpan:TOBYINK';
 our $VERSION   = '0.001';
 
 use Moo::Role;
+use Const::Fast;
+use POSIX qw( ceil );
+use Types::Common::Numeric qw( PositiveInt SingleDigit );
+use Types::Standard qw( ArrayRef Str );
 use namespace::sweep;
+
+has square_size => (
+	is       => 'lazy',
+	isa      => PositiveInt & SingleDigit,
+);
+
+requires 'alphabet';
+
+sub _build_square_size {
+	my $self = shift;
+	my $letters = @{ $self->alphabet };
+	return ceil(sqrt($letters));
+}
 
 has square => (
 	is       => 'lazy',
+	isa      => ArrayRef[ ArrayRef[Str] ],
 );
 
 sub _build_square
 {
 	my $self = shift;
-	return [
-		[qw/ A B C D E /],
-		[qw/ F G H I K /],
-		[qw/ L M N O P /],
-		[qw/ Q R S T U /],
-		[qw/ V W X Y Z /],
-	];
+	
+	my @alphabet = @{ $self->alphabet };
+	my $size = $self->square_size;
+	
+	const my @rows => map {
+		my @letters = (
+			splice(@alphabet, 0, $size),
+			('') x $size,
+		);
+		const my @row => @letters[0..$size-1];
+		\@row;
+	} 1..$size;
+	
+	\@rows;
 }
 
 my $_build_lookups = sub
@@ -33,13 +58,12 @@ my $_build_lookups = sub
 	
 	my (%enc, %dec);
 	my $square = $self->square;
-	for my $i (0 .. $#$square)
+	my $size   = $self->square_size;
+	for my $i (0 .. $size-1)
 	{
-		die if $i > 8;
 		my $row = $square->[$i];
-		for my $j (0 .. $#$row)
+		for my $j (0 .. $size-1)
 		{
-			die if $j > 8;
 			my $clear  = $row->[$j];
 			my $cipher = sprintf('%s%s', $i+1, $j+1);
 			$enc{$clear}  = $cipher;
@@ -47,8 +71,10 @@ my $_build_lookups = sub
 		}
 	}
 	
-	$self->_set_lookup_enc(\%enc);
-	$self->_set_lookup_dec(\%dec);
+	const my $enc => \%enc;
+	const my $dec => \%dec;
+	$self->_set_lookup_enc($enc);
+	$self->_set_lookup_dec($dec);
 	$self->$want;
 };
 
