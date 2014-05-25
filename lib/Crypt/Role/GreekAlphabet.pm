@@ -10,6 +10,8 @@ our $VERSION   = '0.002';
 
 use Moo::Role;
 use Const::Fast;
+use Type::Params;
+use Types::Standard qw(Str);
 use namespace::sweep;
 
 const my $alphabet => [
@@ -18,11 +20,15 @@ const my $alphabet => [
 
 sub alphabet { $alphabet }
 
+my $_check_preprocess;
 sub preprocess
 {
-	my $self = shift;
-	my $str = uc($_[0]);
+	$_check_preprocess ||= compile(Str);
 	
+	my $self = shift;
+	my ($input) = $_check_preprocess->(@_);
+	
+	my $str = uc $input;
 	$str =~ tr/ΆΈΉΊΌΎΏΪΫ/ΑΕΗΙΟΥΩΙΥ/;
 	$str;
 }

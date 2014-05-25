@@ -10,8 +10,9 @@ our $VERSION   = '0.002';
 use Moo::Role;
 use Const::Fast;
 use POSIX qw( ceil );
+use Type::Params;
 use Types::Common::Numeric qw( PositiveInt SingleDigit );
-use Types::Standard qw( ArrayRef Str );
+use Types::Standard qw( ArrayRef HashRef Str );
 use namespace::sweep;
 
 has square_size => (
@@ -82,6 +83,7 @@ my $_build_hashes = sub
 
 has encipher_hash => (
 	is       => 'lazy',
+	isa      => HashRef[Str],
 	writer   => '_set_encipher_hash',
 	default  => sub { shift->$_build_hashes('encipher_hash') },
 	init_arg => undef,
@@ -89,6 +91,7 @@ has encipher_hash => (
 
 has decipher_hash => (
 	is       => 'lazy',
+	isa      => HashRef[Str],
 	writer   => '_set_decipher_hash',
 	default  => sub { shift->$_build_hashes('decipher_hash') },
 	init_arg => undef,
@@ -96,22 +99,30 @@ has decipher_hash => (
 
 requires 'preprocess';
 
+my $_check_encipher;
 sub encipher
 {
+	$_check_encipher ||= compile(Str);
+
 	my $self = shift;
-	my $str  = $self->preprocess($_[0]);
+	my ($input) = $_check_encipher->(@_);
 	
+	my $str = $self->preprocess($input);
 	my $enc = $self->encipher_hash;
 	$str =~ s/(.)/exists $enc->{$1} ? $enc->{$1}." " : ""/eg;
 	chop $str;
 	return $str;
 }
 
+my $_check_decipher;
 sub decipher
 {
+	$_check_decipher ||= compile(Str);
+
 	my $self = shift;
-	my $str  = $_[0];
+	my ($input) = $_check_decipher->(@_);
 	
+	my $str = $input;
 	my $dec = $self->decipher_hash;
 	$str =~ s/[^0-9]//g; # input should be entirely numeric
 	$str =~ s/([0-9]{2})/$dec->{$1}/eg;

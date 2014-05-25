@@ -10,17 +10,23 @@ our $VERSION   = '0.002';
 use Moo::Role;
 use Const::Fast;
 use Text::Unidecode;
+use Type::Params;
+use Types::Standard qw(Str);
 use namespace::sweep;
 
 const my $alphabet => [ 'A' .. 'I', 'K' .. 'Z' ];
 
 sub alphabet { $alphabet }
 
+my $_check_preprocess;
 sub preprocess
 {
-	my $self = shift;
+	$_check_preprocess ||= compile(Str);
 	
-	my $str = unidecode uc($_[0]);
+	my $self = shift;
+	my ($input) = $_check_preprocess->(@_);
+	
+	my $str = unidecode uc $input;
 	$str =~ s/J/I/g;
 	$str;
 }
