@@ -119,3 +119,118 @@ sub decipher
 }
 
 1;
+
+__END__
+
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Crypt::Role::CheckerboardCipher - guts of the Polybius square cipher implementation
+
+=head1 DESCRIPTION
+
+=head2 Attributes
+
+The following attributes exist. All of them have defaults, and should
+not be provided to the constructors of consuming classes.
+
+=over
+
+=item C<< square >>
+
+An arrayref of arrayrefs of letters.
+
+=item C<< square_size >>
+
+The length of one side of the square, as an integer.
+
+=item C<< encipher_hash >>
+
+Hashref used by the C<encipher> method.
+
+=item C<< decipher_hash >>
+
+Hashref used by the C<decipher> method.
+
+=back
+
+=head2 Object Methods
+
+=over
+
+=item C<< encipher($str) >>
+
+Enciphers a string and returns the ciphertext.
+
+=item C<< decipher($str) >>
+
+Deciphers a string and returns the plaintext.
+
+=item C<< _build_square_size >>
+
+Calculates the optimum square size for the alphabet. An alphabet of 25
+letters can fill a five by five square, so this method would return 5.
+An alphabet of 26 characters would partly fill a six by six square, so
+this method would return 6.
+
+This method is not expected to be called by end-users but is documented
+for people writing classes consuming this role.
+
+=item C<< _build_square >>
+
+Allocates the letters of the alphabet into a square (an arrayref of
+arrayrefs of letters), returning the square.
+
+This method is not expected to be called by end-users but is documented
+for people writing classes consuming this role.
+
+=back
+
+=head2 Required Methods
+
+Classes consuming this role must provide the following methods:
+
+=over
+
+=item C<< preprocess($str) >>
+
+Expected to return a string more suitable for enciphering.
+
+=item C<< alphabet >>
+
+Expected to returns an arrayref of the known alphabet.
+
+=back
+
+=head1 BUGS
+
+Please report any bugs to
+L<http://rt.cpan.org/Dist/Display.html?Queue=Crypt-Polybius>.
+
+=head1 SEE ALSO
+
+L<http://en.wikipedia.org/wiki/Polybius_square>.
+
+L<Crypt::Polybius>,
+L<Crypt::Polybius::Greek>.
+
+=head1 AUTHOR
+
+Toby Inkster E<lt>tobyink@cpan.orgE<gt>.
+
+=head1 COPYRIGHT AND LICENCE
+
+This software is copyright (c) 2014 by Toby Inkster.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=head1 DISCLAIMER OF WARRANTIES
+
+THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+

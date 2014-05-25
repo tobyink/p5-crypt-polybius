@@ -140,6 +140,11 @@ any lower-case letters, and passes the string through Text::Unidecode.
 It also replaces any letter B<J> with B<I> because the former is not
 found in the alphabet provided by L<Crypt::Role::LatinAlphabet>.
 
+=item C<< alphabet >>
+
+Returns an arrayref of the known alphabet. Provided by
+L<Crypt::Role::LatinAlphabet>.
+
 =back
 
 =head2 Class Method
@@ -149,6 +154,9 @@ found in the alphabet provided by L<Crypt::Role::LatinAlphabet>.
 =item C<< with_traits(@traits) >>
 
 Generates a new class based on this class, but adding traits.
+
+L<Crypt::Role::ScrambledAlphabet> is an example of an interesting
+trait that works with this class.
 
 =back
 
@@ -160,6 +168,8 @@ L<http://rt.cpan.org/Dist/Display.html?Queue=Crypt-Polybius>.
 =head1 SEE ALSO
 
 L<http://en.wikipedia.org/wiki/Polybius_square>.
+
+L<Crypt::Polybius::Greek>.
 
 =head1 AUTHOR
 
