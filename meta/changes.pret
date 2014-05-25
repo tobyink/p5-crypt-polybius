@@ -4,3 +4,10 @@
 	issued  2014-05-23;
 	label   "Initial release".
 
+`Crypt-Polybius 0.002 cpan:TOBYINK`
+	issued  2014-05-25;
+	changeset [
+		item "Much refactoring, splitting things out into roles, making stuff more immutable, and adding type constraint to attributes."^^Change;
+		item "Support for the Greek alphabet."^^Addition;
+		item "Support for the scrambling the alphabet with a password."^^Addition;
+	].

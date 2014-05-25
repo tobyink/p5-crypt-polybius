@@ -5,7 +5,7 @@ use warnings;
 package Crypt::Polybius::Greek;
 
 our $AUTHORITY = 'cpan:TOBYINK';
-our $VERSION   = '0.001';
+our $VERSION   = '0.002';
 
 use Moo;
 use Text::Unidecode;
