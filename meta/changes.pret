@@ -11,3 +11,9 @@
 		item "Support for the Greek alphabet."^^Addition;
 		item "Support for the scrambling the alphabet with a password."^^Addition;
 	].
+
+`Crypt-Polybius 0.003 cpan:TOBYINK`
+	issued  2014-05-25;
+	changeset [
+		item "Add missing dependency on MooX::Traits."^^Packaging;
+	].

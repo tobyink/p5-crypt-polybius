@@ -5,7 +5,7 @@ use warnings;
 package Crypt::Role::CheckerboardCipher;
 
 our $AUTHORITY = 'cpan:TOBYINK';
-our $VERSION   = '0.002';
+our $VERSION   = '0.003';
 
 use Moo::Role;
 use Const::Fast;
