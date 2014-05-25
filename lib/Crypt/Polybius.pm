@@ -73,13 +73,17 @@ L<MooX::Traits>
 
 =back
 
-=head2 Constructor
+=head2 Constructors
 
 =over
 
-=item C<< new >>
+=item C<< new(%attributes) >>
 
 Moose-like constructor.
+
+=item C<< new_with_traits(%attributes, traits => \@traits) >>
+
+Alternative constructor provided by L<MooX::Traits>.
 
 =back
 
@@ -110,7 +114,9 @@ L<Crypt::Role::CheckerboardCipher>.
 Hashref used by the C<decipher> method. Provided by
 L<Crypt::Role::CheckerboardCipher>.
 
-=head2 Methods
+=back
+
+=head2 Object Methods
 
 =over
 
@@ -129,10 +135,20 @@ L<Crypt::Role::CheckerboardCipher>.
 Perform pre-encipher processing on a string. C<encipher> calls this, so
 you are unlikely to need to call it yourself.
 
-The implementation in this class uppercases any lower-case letters, and
-passes the string through Text::Unidecode. It also replaces any letter
-B<J> with B<I> because the former is not found in the alphabet provided
-by L<Crypt::Role::LatinAlphabet>;
+The implementation provided by L<Crypt::Role::LatinAlphabet> uppercases
+any lower-case letters, and passes the string through Text::Unidecode.
+It also replaces any letter B<J> with B<I> because the former is not
+found in the alphabet provided by L<Crypt::Role::LatinAlphabet>.
+
+=back
+
+=head2 Class Method
+
+=over
+
+=item C<< with_traits(@traits) >>
+
+Generates a new class based on this class, but adding traits.
 
 =back
 

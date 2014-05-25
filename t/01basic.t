@@ -19,11 +19,8 @@ the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-use strict;
-use warnings;
-use Test::More;
-
-use_ok('Crypt::Polybius');
+use Test::Modern;
+use Crypt::Polybius;
 
 my $o = Crypt::Polybius->new;
 

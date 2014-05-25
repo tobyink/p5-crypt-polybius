@@ -19,12 +19,9 @@ the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-use strict;
 use utf8;
-use warnings;
-use Test::More;
-
-use_ok('Crypt::Polybius::Greek');
+use Test::Modern;
+use Crypt::Polybius::Greek;
 
 my $o = Crypt::Polybius::Greek->new;
 
