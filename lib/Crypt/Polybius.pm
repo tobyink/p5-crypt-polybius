@@ -11,6 +11,7 @@ use Moo;
 use namespace::sweep;
 
 with qw(
+	MooX::Traits
 	Crypt::Role::CheckerboardCipher
 	Crypt::Role::LatinAlphabet
 );
@@ -65,6 +66,10 @@ L<Crypt::Role::LatinAlphabet>
 =item *
 
 L<Crypt::Role::CheckerboardCipher>
+
+=item *
+
+L<MooX::Traits>
 
 =back
 
