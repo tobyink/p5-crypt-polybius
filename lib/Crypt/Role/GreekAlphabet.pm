@@ -41,6 +41,8 @@ __END__
 
 =encoding utf-8
 
+=for stopwords Unicode codepoints
+
 =head1 NAME
 
 Crypt::Role::GreekAlphabet - twenty-four letter Greek alphabet for classic cryptography
@@ -61,7 +63,7 @@ Returns the alphabet as an arrayref of letters.
 =item C<< preprocess($str) >>
 
 Perform pre-encipher processing on a string. The string is uppercased.
-Common unicode codepoints correponding to Greek letters with diacritics
+Common Unicode codepoints corresponding to Greek letters with diacritics
 are replaced with the closest match from the alphabet.
 
 Punctuation characters, spaces, etc are I<not> removed from the string.
